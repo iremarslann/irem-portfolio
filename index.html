@@ -330,7 +330,7 @@
             <p>Reach out for contracts, collaborations, or questions.</p>
           </div>
       
-          <form name="contact" method="POST" data-vercel="true">
+          <form name="contact" method="POST" data-vercel="true" id="contactForm">
             <input type="hidden" name="form-name" value="contact">
       
             <div>
@@ -355,14 +355,33 @@
       </section>
       
       <script>
-        // Success/failure feedback
-        const form = document.querySelector('form[name="contact"]');
+        const form = document.getElementById('contactForm');
         const formMessage = document.getElementById('formMessage');
       
-        form.addEventListener('submit', () => {
-          formMessage.textContent = 'Thanks! Your message has been sent.';
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault(); // prevent page reload
+      
+          formMessage.textContent = "Sending…";
+      
+          const formData = new FormData(form);
+      
+          try {
+            const response = await fetch("/", {
+              method: "POST",
+              body: formData
+            });
+      
+            if (response.ok) {
+              formMessage.textContent = "Thanks! Your message has been sent.";
+              form.reset();
+            } else {
+              formMessage.textContent = "Oops! Something went wrong. Please try again.";
+            }
+          } catch (error) {
+            formMessage.textContent = "Error sending message. Please try again.";
+          }
         });
-      </script>      
+      </script>              
   </main>
 
   <footer>
