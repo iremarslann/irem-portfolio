@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Irem Arslan — Portfolio</title>
+  <meta name="description" content="Portfolio of Irem Arslan — software engineer & web developer. Projects, experience, and contact." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --panel: #111217;
+      --text: #e6e7ea;
+      --muted: #a8acb3;
+      --accent: #c59d5f; /* subtle gold */
+      --accent-2: #f2d7a6;
+      --border: #1b1d24;
+      --maxw: 1080px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; scroll-behavior: smooth; }
+    body {
+      margin: 0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text); background: radial-gradient(1200px 600px at 80% -10%, #141622, transparent), var(--bg);
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    /* Layout */
+    .container { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
+
+    /* Header */
+    header {
+      position: sticky; top: 0; z-index: 50; backdrop-filter: saturate(120%) blur(10px);
+      background: linear-gradient(180deg, rgba(11,12,16,0.9), rgba(11,12,16,0.6) 70%, transparent);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between; height: 64px;
+    }
+    .brand { font-weight: 800; letter-spacing: 0.4px; }
+    .brand span { color: var(--accent); }
+    nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; }
+    nav a { color: var(--muted); font-weight: 600; }
+    nav a:hover, nav a:focus { color: var(--text); }
+
+    /* Mobile menu */
+    .menu-btn { display: none; background: none; border: 1px solid var(--border); color: var(--text); padding: 8px 10px; border-radius: 10px; }
+    @media (max-width: 840px) {
+      nav ul { display: none; }
+      .menu-btn { display: inline-flex; align-items: center; gap: 6px; }
+    }
+
+    /* Hero */
+    .hero { padding: 88px 0 48px; }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 36px; align-items: center; }
+    .hero h1 { font-size: clamp(28px, 3.6vw, 46px); line-height: 1.15; margin: 0 0 14px; }
+    .hero h1 .accent { color: var(--accent); }
+    .hero p { color: var(--muted); font-size: 1.05rem; }
+    .cta { margin-top: 22px; display: flex; gap: 12px; }
+    .btn { padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border); font-weight: 700; }
+    .btn.primary { background: linear-gradient(180deg, var(--accent), var(--accent-2)); color: #1a1a1a; border: none; }
+    .btn.ghost { color: var(--text); }
+
+    .hero .panel { background: linear-gradient(180deg, #14151b, #0e0f13); border: 1px solid var(--border); border-radius: 18px; padding: 22px; }
+    .hero .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 16px; }
+    .stat { background: #0c0d12; border: 1px solid var(--border); border-radius: 14px; padding: 16px; text-align: center; }
+    .stat .num { font-size: 22px; font-weight: 800; color: var(--accent); }
+    .stat .label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+    @media (max-width: 960px) { .hero-grid { grid-template-columns: 1fr; } }
+
+    /* Section headings */
+    section { padding: 56px 0; }
+    .section-title { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+    .section-title h2 { font-size: clamp(22px, 3vw, 30px); margin: 0; }
+    .section-title p { color: var(--muted); margin: 0; }
+
+    /* Projects grid */
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    @media (max-width: 1000px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+
+    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 18px; overflow: clip; display: flex; flex-direction: column; }
+    .thumb { aspect-ratio: 16/9; background: linear-gradient(180deg, #1a1b22, #101118); display: grid; place-items: center; color: var(--muted); font-weight: 600; }
+    .card-body { padding: 16px; display: grid; gap: 8px; }
+    .card h3 { margin: 0; font-size: 18px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag { font-size: 12px; color: var(--muted); background: #0c0d12; border: 1px solid var(--border); border-radius: 999px; padding: 6px 10px; }
+    .card .actions { margin-top: auto; padding: 16px; display: flex; gap: 10px; }
+    .chip { font-size: 13px; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--border); color: var(--text); }
+    .chip:hover { border-color: var(--accent); }
+
+    /* Skills */
+    .skills { display: flex; flex-wrap: wrap; gap: 10px; }
+    .skill { padding: 10px 12px; background: #0c0d12; border: 1px solid var(--border); border-radius: 10px; color: var(--muted); font-weight: 600; }
+
+    /* About */
+    .about { background: linear-gradient(180deg, #0d0f14, #0b0c10); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .about p { color: var(--muted); }
+
+    /* Contact */
+    form { display: grid; gap: 12px; }
+    input, textarea { width: 100%; padding: 12px 14px; background: #0c0d12; border: 1px solid var(--border); border-radius: 12px; color: var(--text); }
+    label { font-weight: 600; }
+    .note { color: var(--muted); font-size: 14px; }
+
+    footer { padding: 36px 0; color: var(--muted); text-align: center; border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#top">Irem<span>Arslan</span></a>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileNav">Menu</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <h1>Software Engineer & Web Developer building clean, performant experiences. <span class="accent">Available for hire.</span></h1>
+          <p>I focus on accessible, responsive interfaces with modern stacks. Recent graduate with projects spanning Android (Kotlin/Compose), web (HTML/CSS/JS), and data tools.</p>
+          <div class="cta">
+            <a class="btn primary" href="#projects">View Projects</a>
+            <a class="btn ghost" href="#contact">Contact Me</a>
+          </div>
+        </div>
+        <aside class="panel" aria-label="Highlights">
+          <div class="stats">
+            <div class="stat"><div class="num">10+</div><div class="label">Projects</div></div>
+            <div class="stat"><div class="num">5</div><div class="label">Tech Stacks</div></div>
+            <div class="stat"><div class="num">100%</div><div class="label">Responsive</div></div>
+          </div>
+          <div style="margin-top:16px" class="note"></div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="projects" aria-labelledby="projects-title">
+      <div class="container">
+        <div class="section-title">
+          <h2 id="projects-title">Portfolio</h2>
+          <p>My recent projects and code that I’m proud of.</p>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <div class="thumb">Isla Bonita — Android Music App</div>
+            <div class="card-body">
+              <h3>Isla Bonita (Spotify-like)</h3>
+              <p class="note">A full-featured music streaming application using Kotlin and Jetpack Compose, integrating Spotify's API for seamless track search and preview functionality.</p>
+              <div class="tags">
+                <span class="tag">Kotlin</span><span class="tag">Compose</span><span class="tag">MVVM</span>
+              </div>
+            </div>
+            <div class="actions">
+              <a class="chip" href="#" target="_blank" rel="noopener">Live</a>
+              <a class="chip" href="#" target="_blank" rel="noopener">Code</a>
+              <a class="chip" href="#" target="_blank" rel="noopener">Case Study</a>
+            </div>
+          </article>
+          <article class="card">
+            <div class="thumb">MyQuizBuilder — Quiz Generator</div>
+            <div class="card-body">
+              <h3>MyQuizBuilder</h3>
+              <p class="note">A comprehensive application that utilizes Angular for the front end, Flask for the back end, and MySQL for the database. The application's core functionality revolves around allowing users to input quiz questions along with their respective answers which then gets graded using Chat GPT API</p>
+              <div class="tags">
+                <span class="tag">Typescript</span><span class="tag">SCSS</span><span class="tag">Python</span><span class="tag">HTML/CSS</span>
+              </div>
+            </div>
+            <div class="actions">
+              <a class="chip" href="#" target="_blank" rel="noopener">Live</a>
+              <a class="chip" href="#" target="_blank" rel="noopener">Code</a>
+            </div>
+          </article>
+          <article class="card">
+            <div class="thumb">Binary Search Tree Visualizer — Web Application</div>
+            <div class="card-body">
+              <h3>BST Visualizer</h3>
+              <p class="note">A web application to visualize Binary Search Tree operations, including insertion, deletion, and search. Implemented features for minimum/maximum node determination and traversal visualizations (in-order, pre-order, post-order).</p>
+              <div class="tags">
+                <span class="tag">JavaScript</span><span class="tag">HTML/CSS</span>
+              </div>
+            </div>
+            <div class="actions">
+              <a class="chip" href="#" target="_blank" rel="noopener">Live</a>
+              <a class="chip" href="#" target="_blank" rel="noopener">Code</a>
+            </div>
+          </article>
+          <article class="card">
+            <div class="thumb">Word Count — Application</div>
+            <div class="card-body">
+              <h3>Client/Server Word Count</h3>
+              <p class="note"> A simple Java client-server application that counts the number of words in user-provided text. The client sends input to the server via sockets, and the server processes the text and returns the word count. Built using Java I/O and multithreading for basic network communication.</p>
+              <div class="tags">
+                <span class="tag">Java</span>
+              </div>
+            </div>
+            <div class="actions">
+              <a class="chip" href="#" target="_blank" rel="noopener">Live</a>
+              <a class="chip" href="#" target="_blank" rel="noopener">Code</a>
+            </div>
+          </article>
+          <article class="card">
+            <div class="thumb">Shark — OS</div>
+            <div class="card-body">
+              <h3>Shark OS</h3>
+              <p class="note"> A Java-based OS simulator that manages process scheduling and execution on a virtual CPU called the SharkMachine. It loads programs from a file, simulates memory allocation, and uses Round Robin scheduling with state saving/restoring. All system activity is logged to a SystemLog.txt file.</p>
+              <div class="tags">
+                <span class="tag">Java</span>
+              </div>
+            </div>
+            <div class="actions">
+              <a class="chip" href="#" target="_blank" rel="noopener">Live</a>
+              <a class="chip" href="#" target="_blank" rel="noopener">Code</a>
+            </div>
+          </article>
+          <article class="card">
+            <div class="thumb">ColorBuster — Game</div>
+            <div class="card-body">
+              <h3>ColorBuster</h3>
+              <p class="note"> A fun, fast paced tile matching game where you clear colorful grids and chase high scores. Built with the MVC pattern.</p>
+              <div class="tags">
+                <span class="tag">JS</span><span class="tag">MVC</span><span class="tag">HTML/CSS</span>
+              </div>
+            </div>
+            <div class="actions">
+              <a class="chip" href="#" target="_blank" rel="noopener">Live</a>
+              <a class="chip" href="#" target="_blank" rel="noopener">Code</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section id="skills" aria-labelledby="skills-title">
+      <div class="container">
+        <div class="section-title">
+          <h2 id="skills-title">Technical Skills</h2>
+          <p>Languages, tools, databases, and frameworks I use regularly.</p>
+        </div>
+        <div class="skills">
+          <span class="skill">HTML</span>
+          <span class="skill">CSS</span>
+          <span class="skill">Java</span>
+          <span class="skill">Python</span>
+          <span class="skill">C/C++/C#</span>
+          <span class="skill">JavaScript</span>
+          <span class="skill">Kotlin</span>
+          <span class="skill">SQL</span>
+          <span class="skill">Typescript</span>
+          <span class="skill">Jetpack Compose</span>
+          <span class="skill">Firebase</span>
+          <span class="skill">Git/GitHub</span>
+          <span class="skill">SEO Basics</span>
+          <span class="skill">React</span>
+          <span class="skill">Angular</span>
+          <span class="skill">Node.js</span>
+          <span class="skill">Flask</span>
+          <span class="skill">JUnit</span>
+          <span class="skill">FastAPI</span>
+          <span class="skill">Flutter</span>
+          <span class="skill">SQL Server</span>
+          <span class="skill">MongoDB</span>
+          <span class="skill">MySQL</span>
+          <span class="skill">SQLite</span>
+          <span class="skill">JIRA</span>
+          <span class="skill">Postman</span>
+          <span class="skill">Tableau</span>
+          <span class="skill">Docker</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about" aria-labelledby="about-title">
+      <div class="container">
+        <div class="section-title">
+          <h2 id="about-title">About</h2>
+          <p>A quick snapshot of who I am.</p>
+        </div>
+        <p>
+          I'm a software engineer with a B.S. in Computer Science and minors in Cybersecurity and Mathematics. I enjoy building polished, performant apps and websites, and I'm comfortable moving from design to deployment. I am always on the lookout for any new opportunities, my inbox is always open. I have two internship experiences and always looking for new opportunitites!
+        </p>
+      </div>
+    </section>
+
+    <section id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <div class="section-title">
+          <h2 id="contact-title">Contact</h2>
+          <p>Reach out for contracts, collaborations, or questions.</p>
+        </div>
+        <form action="mailto:arslaniremx@gmail.com" method="post" enctype="text/plain">
+          <div>
+            <label for="name">Name</label>
+            <input id="name" name="name" placeholder="Your name" required />
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" required />
+          </div>
+          <div>
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" placeholder="What would you like to build?" required></textarea>
+          </div>
+          <button class="btn primary" type="submit">Send</button>
+          <p class="note"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © <span id="year"></span> Irem Arslan. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    // Mobile nav (simple disclosure)
+    const btn = document.getElementById('menuBtn');
+    btn?.addEventListener('click', () => {
+      const nav = document.querySelector('nav ul');
+      const open = nav?.style.display === 'flex';
+      nav.style.display = open ? 'none' : 'flex';
+      nav.style.flexDirection = 'column';
+      btn.setAttribute('aria-expanded', String(!open));
+    });
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
